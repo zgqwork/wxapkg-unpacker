@@ -1,20 +1,21 @@
 {
   "name": "unpack-wxapkg",
   "displayName": "微信小程序反编译",
-  "version": "1.0.0-alpha",
+  "version": "v0.0.1-alpha.2",
   "description": "将微信小程序包wxapkg反编译为微信小程序项目",
-  "build": {},
   "license": "MIT",
   "dependencies": {
     "cheerio": "^1.0.0-rc.5",
-    "colors": "^1.4.0",
+    "color-logger": "./packages/color-logger/color-logger-v0.0.1-alpha.2.tgz",
     "css-tree": "^1.0.0-alpha.28",
     "cssbeautify": "^0.3.1",
     "escodegen": "^2.0.0",
     "esprima": "^4.0.0",
     "js-beautify": "^1.7.5",
-    "js-logger": "^1.6.1",
     "uglify-es": "^3.3.9",
     "vm2": "^3.6.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.1"
   }
 }
