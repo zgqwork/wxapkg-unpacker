@@ -1,6 +1,6 @@
-# unpack-wxapkg
+# wxapkg-unpacker
 
-## unpack-wxapkg 是什么？
+## wxapkg-unpacker 是什么？
 > 自动化反编译微信小程序/小游戏，小程序安全利器
 > 基于 [wxappUnpacker](https://github.com/system-cpu/wxappUnpacker) 二次开发
 > 暂时不支持 wxappUnpacker的参数，（后面再整合）若要使用可直接运行 lib/wuWxapkg.js
@@ -15,10 +15,14 @@
 ### 2. 针对微信小程序的优化
 - 开发中...
 
-## 安装
+## 安装和使用
 ```bash
-git clone https://github.com/r3x5ur/unpack-wxapkg.git
-cd unpack-wxapkg
+npm i wxapkg-unpacker
+# or
+yarn add wxapkg-unpacker
+# or
+git clone https://github.com/r3x5ur/unpack-wxapkg.git wxapkg-unpacker
+cd wxapkg-unpacker
 yarn
-node unpack-wxapkg.js [单个wxapkg文件或者多个wxapkg文件的目录]
+yarn unpack [单个wxapkg文件或者多个wxapkg文件的目录]
 ```

@@ -1,4 +1,4 @@
-require('color-logger')
+require('./packages/color-logger')
 const path = require('path')
 const fs = require('fs')
 const utils = require('./lib/utils')
@@ -60,8 +60,8 @@ function unpackWxapkg(filePath, options) {
 if (require.main === module) {
   const args = process.argv.slice(2)
   if (!args.length) {
-    logger.info('Usage: node main.js <unpackDir>')
-    process.exit(1)
+    logger.info('Usage: yarn unpack <unpackDir>')
+    process.exit(0)
   }
   const processedList = []
   unpackWxapkg(args[0], {

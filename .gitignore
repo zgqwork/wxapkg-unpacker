@@ -128,8 +128,11 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# test Pkg
+# test pkg
 pkg*/
 
 # webstorm
 .idea
+
+# packed files
+*.tgz

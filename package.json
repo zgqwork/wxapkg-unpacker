@@ -1,12 +1,28 @@
 {
-  "name": "unpack-wxapkg",
+  "name": "wxapkg-unpacker",
   "displayName": "微信小程序反编译",
-  "version": "v0.0.1-alpha.2",
+  "author": "r3x5ur",
+  "version": "0.0.1-alpha.4",
+  "keywords": [
+    "wxapkg",
+    "unpack",
+    "微信小程序",
+    "微信小游戏",
+    "反编译"
+  ],
   "description": "将微信小程序包wxapkg反编译为微信小程序项目",
   "license": "MIT",
+  "main": "bin.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/r3x5ur/unpack-wxapkg"
+  },
+  "bugs": "https://github.com/r3x5ur/unpack-wxapkg/issues",
+  "scripts": {
+    "unpack": "node bin.js"
+  },
   "dependencies": {
     "cheerio": "^1.0.0-rc.5",
-    "color-logger": "./packages/color-logger/color-logger-v0.0.1-alpha.2.tgz",
     "css-tree": "^1.0.0-alpha.28",
     "cssbeautify": "^0.3.1",
     "escodegen": "^2.0.0",
