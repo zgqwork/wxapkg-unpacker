@@ -1,0 +1,12 @@
+{
+  "name": "color-logger",
+  "version": "0.0.2-0",
+  "description": "Colored logger",
+  "main": "index.js",
+  "author": "r3x5ur",
+  "license": "MIT",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "js-logger": "^1.6.1"
+  }
+}
