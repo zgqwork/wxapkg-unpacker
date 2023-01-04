@@ -7,11 +7,13 @@
   "license": "MIT",
   "dependencies": {
     "cheerio": "^1.0.0-rc.5",
+    "colors": "^1.4.0",
     "css-tree": "^1.0.0-alpha.28",
     "cssbeautify": "^0.3.1",
     "escodegen": "^2.0.0",
     "esprima": "^4.0.0",
     "js-beautify": "^1.7.5",
+    "js-logger": "^1.6.1",
     "uglify-es": "^3.3.9",
     "vm2": "^3.6.0"
   }

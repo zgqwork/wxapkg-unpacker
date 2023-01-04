@@ -1,7 +1,7 @@
+require("./lib/color-logger");
 const path = require("path");
 const fs = require("fs");
 const utils = require("./lib/utils");
-const { logger } = require("./lib/wuLib.js");
 const { doFile } = require("./lib/wuWxapkg");
 const seenSet = new Set();
 
@@ -62,7 +62,7 @@ function unpackWxapkg(filePath, options) {
 if (require.main === module) {
   const args = process.argv.slice(2);
   if (!args.length) {
-    logger.error("Usage: node main.js <unpackDir>");
+    logger.info("Usage: node main.js <unpackDir>");
     process.exit(1);
   }
   const processedList = [];
@@ -84,7 +84,7 @@ if (require.main === module) {
       this.callback(processed);
       const mainPackage = global.mainPackage;
       if (!mainPackage) return;
-      logger.debug('Move subpackage to main package...');
+      logger.debug("Move subpackage to main package...");
       processedList.forEach((p) => {
         const unpackedDir = p.replace(utils.getFilenameExt(p, false), "");
         if (unpackedDir === mainPackage) return;
@@ -97,22 +97,26 @@ if (require.main === module) {
         });
         fs.rmdirSync(unpackedDir, { recursive: true });
       });
-      logger.debug('Moved.');
+      logger.debug("Moved.");
       if (global.existsPlugin) {
-        logger.debug('Plugin detected, Write to main package...');
-        const mainPackageGameJS = path.resolve(mainPackage, 'game.js');
-        const content = 'require("./plugin");\n' + utils.readFileSync(mainPackageGameJS)
-        utils.writeFileSync(mainPackageGameJS, content)
-        logger.debug('Done.');
+        logger.debug("Plugin detected, Write to main package...");
+        const mainPackageGameJS = path.resolve(mainPackage, "game.js");
+        const content =
+          'require("./plugin");\n' + utils.readFileSync(mainPackageGameJS);
+        utils.writeFileSync(mainPackageGameJS, content);
+        logger.debug("Done.");
       }
       const configJSON = `{
         "description": "See https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
         "setting": {
           "urlCheck": false
         }
-      }`
-      logger.debug('Write project.private.config.json');
-      utils.writeFileSync(path.resolve(mainPackage,  'project.private.config.json'), configJSON)
+      }`;
+      logger.debug("Write project.private.config.json");
+      utils.writeFileSync(
+        path.resolve(mainPackage, "project.private.config.json"),
+        configJSON
+      );
     },
     cleanOld: true,
   });
