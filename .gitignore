@@ -102,7 +102,6 @@ dist
 
 # vuepress v2.x temp and cache directory
 .temp
-.cache
 
 # Docusaurus cache and generated files
 .docusaurus
@@ -129,5 +128,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-
+# test Pkg
 pkg*/
+
+# webstorm
+.idea
