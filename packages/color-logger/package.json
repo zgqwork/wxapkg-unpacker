@@ -1,6 +1,6 @@
 {
   "name": "color-logger",
-  "version": "0.0.2-2",
+  "version": "0.0.1-alpha.2",
   "description": "Colored logger",
   "main": "index.js",
   "author": "r3x5ur",
