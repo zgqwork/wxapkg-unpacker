@@ -1,0 +1,14 @@
+{
+  "name": "unpacker",
+  "version": "0.0.1-alpha.4",
+  "main": "src/index.js",
+  "private": true,
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.5",
+    "css-tree": "^1.0.0-alpha.28",
+    "cssbeautify": "^0.3.1",
+    "escodegen": "^2.0.0",
+    "esprima": "^4.0.0",
+    "vm2": "^3.6.0"
+  }
+}

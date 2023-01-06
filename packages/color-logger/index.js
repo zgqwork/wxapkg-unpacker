@@ -1,5 +1,6 @@
 const Logger = require('js-logger')
 const colors = require('colors')
+const safeColors = require('colors/safe')
 const { basename } = require('path')
 colors.setTheme({
   silly: 'rainbow',
@@ -38,7 +39,7 @@ Logger.useDefaults({
   defaultLevel: Logger.TRACE,
 })
 Logger.setHandler((message, { level, name }) => {
-  message = Array.from(message)
+  message = Array.from(message).map(m => (typeof m === 'object' ? JSON.stringify(m) : m))
   name && message.unshift(`${name}`.cyan)
   message.unshift(getTime(locale).grey)
   const levelName = `[${level.name}]  `.slice(0, Logger.DEBUG.name.length + 2)
@@ -70,4 +71,5 @@ if (!global.logger) {
 }
 module.exports = {
   getLogger,
+  safeColors,
 }

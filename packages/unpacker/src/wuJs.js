@@ -1,16 +1,7 @@
 const wu = require('./wuLib.js')
 const path = require('path')
-const UglifyJS = require('uglify-es')
-const { js_beautify } = require('js-beautify')
+const { removeInvalidLineCode } = require('./utils')
 const { VM } = require('vm2')
-
-function jsBeautify(code) {
-  return UglifyJS.minify(code, {
-    mangle: false,
-    compress: false,
-    output: { beautify: true, comments: true },
-  }).code
-}
 
 function splitJs(name, cb, mainDir) {
   let isSubPkg = mainDir && mainDir.length > 0
@@ -33,16 +24,14 @@ function splitJs(name, cb, mainDir) {
             code.endsWith('})();')
           )
             code = code.slice(25, -5)
-          let res = jsBeautify(code)
+          let res = removeInvalidLineCode(code)
           if (typeof res == 'undefined') {
             logger.debug("Fail to delete 'use strict' in \"" + name + '".')
-            res = jsBeautify(bcode)
+            res = removeInvalidLineCode(bcode)
           }
           needDelList[path.resolve(dir, name)] = -8
-          wu.save(path.resolve(dir, name), jsBeautify(res))
+          wu.save(path.resolve(dir, name), res)
         },
-        definePlugin() {},
-        requirePlugin() {},
       },
     })
     if (isSubPkg) {
@@ -56,11 +45,15 @@ function splitJs(name, cb, mainDir) {
   })
 }
 
-module.exports = {
-  jsBeautify: jsBeautify,
-  wxsBeautify: js_beautify,
-  splitJs: splitJs,
+function splitJsCmd(argv) {
+  wu.commandExecute(
+    splitJs,
+    'Split and beautify weapp js file.\n\n<files...>\n\n<files...> js files to split and beautify.',
+    argv
+  )
 }
+
+module.exports = { splitJs, splitJsCmd }
 if (require.main === module) {
-  wu.commandExecute(splitJs, 'Split and beautify weapp js file.\n\n<files...>\n\n<files...> js files to split and beautify.')
+  splitJsCmd()
 }

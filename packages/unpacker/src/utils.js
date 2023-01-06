@@ -1,6 +1,11 @@
 const fs = require('fs')
 const path = require('path')
-const jsbeautify = require('./jsbeautify.js')
+const { platform } = require('os')
+const { jsBeautify } = require('../../js-beautify')
+
+function listDir(dirname) {
+  return fs.readdirSync(dirname).map(file => path.resolve(dirname, file))
+}
 
 function deepListDir(dirname) {
   const list = []
@@ -16,10 +21,6 @@ function deepListDir(dirname) {
 
   listFile(dirname)
   return list
-}
-
-function listDir(dirname) {
-  return fs.readdirSync(dirname).map(file => path.resolve(dirname, file))
 }
 
 function readFileSync(filepath) {
@@ -63,12 +64,6 @@ function renameFileSync(filename, targetPath) {
   fs.renameSync(filename, targetPath)
 }
 
-function beautify(content) {
-  const indent_size = 2
-  const tabChar = ' '
-  return jsbeautify(content, indent_size, tabChar)
-}
-
 function cleanAlreadyUnpacked(name) {
   if (!name) return false
   const alreadyDir = name.replace(getFilenameExt(name, false), '')
@@ -79,12 +74,21 @@ function cleanAlreadyUnpacked(name) {
   return false
 }
 
+function beautify(content) {
+  const indent_size = 2
+  const tabChar = ' '
+  return jsBeautify(content, indent_size, tabChar)
+}
+
 function removeInvalidLine(filename, savePath) {
   savePath = savePath || filename
-  const invalidRe = /\s+[a-z] = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL\.handleException\([a-z]\);/g
   const fileBuffer = readFileSync(filename, 'utf-8')
-  const newBuf = beautify(fileBuffer.replace(invalidRe, ''))
-  writeFileSync(savePath, newBuf)
+  writeFileSync(savePath, removeInvalidLineCode(fileBuffer))
+}
+
+function removeInvalidLineCode(code) {
+  const invalidRe = /\s+[a-z] = VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL\.handleException\([a-z]\);/g
+  return beautify(code.replace(invalidRe, ''))
 }
 
 function beautifyJS(filePath, beautifiedNS) {
@@ -115,6 +119,33 @@ function options2list(options) {
     .filter(Boolean)
 }
 
+function isWin() {
+  return platform() === 'win32'
+}
+
+function isMac() {
+  return platform() === 'darwin'
+}
+
+function isLinux() {
+  return platform() === 'linux'
+}
+
+function isEncrypted(filePath) {
+  if (!fs.existsSync(filePath)) throw Error(filePath + 'is not fount!')
+  const content = readFileSync(filePath, 'utf-8')
+  return content.startsWith('V1MMWX')
+}
+function isWxAppid(appid) {
+  return appid && /^wx[0-9a-z]{16}$/.test(appid)
+}
+
+function rollbackLogger() {
+  if (!global.logger) {
+    global.logger = new Proxy({}, { get: () => console.log })
+  }
+}
+rollbackLogger()
 module.exports = {
   deepListDir,
   listDir,
@@ -128,6 +159,14 @@ module.exports = {
   beautify,
   cleanAlreadyUnpacked,
   removeInvalidLine,
+  removeInvalidLineCode,
   beautifyJS,
   options2list,
+  isWin,
+  isMac,
+  isLinux,
+  isEncrypted,
+  isWxAppid,
+  rollbackLogger,
+  existsSync: fs.existsSync,
 }
