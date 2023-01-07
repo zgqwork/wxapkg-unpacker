@@ -136,3 +136,4 @@ pkg*/
 
 # packed files
 *.tgz
+dist/

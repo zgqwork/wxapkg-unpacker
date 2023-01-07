@@ -13,16 +13,32 @@
 - 直接生成配置文件
 - 可直接导入微信开发工具运行
 ### 2. 针对微信小程序的优化
-- 开发中...
+- 重新格式化代码
+- 删除多余的无效代码
+### 3. 加入脚手架
+- 支持单独使用所有子模块
+### 5. 加入解密模块
+- 可一键解密Window平台下的小程序包
 
 ## 安装和使用
+### 1. 安装
 ```bash
-npm i wxapkg-unpacker
-# or
-yarn add wxapkg-unpacker
-# or
+# you can use npm install
+npm i wxapkg-unpacker -g
+# or yarn add
+yarn add wxapkg-unpacker --global
+# or clone this repository
 git clone https://github.com/r3x5ur/wxapkg-unpacker.git
 cd wxapkg-unpacker
-yarn
-yarn unpack [单个wxapkg文件或者多个wxapkg文件的目录]
+yarn install
+```
+## 2. 使用
+```bash
+# you can use npx
+npx wxunpacker -h
+# or alias
+npx wxupk  -h
+# If you installed globally
+wxunpacker -h
+wxupk  -h
 ```

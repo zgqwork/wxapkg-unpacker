@@ -421,10 +421,11 @@ function doWxs(code, name) {
   name = name || ''
   name = name.substring(0, name.lastIndexOf('/') + 1)
   const before = 'nv_module={nv_exports:{}};'
+  const re = new RegExp(('p_' + name).replace(/\//g, '\\/'), 'g')
   return removeInvalidLineCode(
     code
       .slice(code.indexOf(before) + before.length, code.lastIndexOf('return nv_module.nv_exports;}'))
-      .replace(eval('/' + ('p_' + name).replace(/\//g, '\\/') + '/g'), '')
+      .replace(re, '')
       .replace(/nv\_/g, '')
       .replace(/(require\(.*?\))\(\)/g, '$1')
   )

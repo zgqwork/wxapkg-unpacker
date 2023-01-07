@@ -1,10 +1,10 @@
 const { existsSync } = require('fs')
-const pkg = require('../package.json')
+const { version, name } = require('../package.json')
 const banner = `
 ┬ ┬─┐ ┬┌─┐┌─┐┬┌─┌─┐   ┬ ┬┌┐┌┌─┐┌─┐┌─┐┬┌─┌─┐┬─┐
 │││┌┴┬┘├─┤├─┘├┴┐│ ┬───│ ││││├─┘├─┤│  ├┴┐├┤ ├┬┘
 └┴┘┴ └─┴ ┴┴  ┴ ┴└─┘   └─┘┘└┘┴  ┴ ┴└─┘┴ ┴└─┘┴└─
-                      version v${pkg.version}
+                      version v${version}
                       author @r3x5ur
 `
 const case2Hyphen = s => s.replace(/\B[A-Z]/g, c => '-' + c).toLowerCase()
@@ -14,6 +14,8 @@ const registeredSubroutine = {
   splitWxss: 'Run alone Restore wxss files.',
   splitConfig: 'Run alone Split and make up weapp app-config.json file.',
   splitWxapkg: 'Run alone Unpack a wxapkg file.',
+  unpack: 'Run the new version of the unpacker separately.',
+  decrypt: 'Run the decryptor alone.',
 }
 const ArgsSortMap = {
   // 执行并退出
@@ -39,17 +41,29 @@ const registeredArgs = {
     sort: ArgsSortMap.EXIT,
   },
   cleanOld: {
-    alias: 'co',
+    alias: 'c',
     type: Boolean,
     message: 'Clear the previously unpacked before unpacking.',
     default: true,
     sort: ArgsSortMap.CONF,
   },
   loggerLevel: {
-    alias: 'll',
+    alias: 'l',
     type: String,
     message: 'Set logger level [INFO|DEBUG|WARN|ERROR].',
     default: 'DEBUG',
+    sort: ArgsSortMap.CONF,
+  },
+  wxAppid: {
+    alias: 'i',
+    type: String,
+    message: 'Wxapkg used to decrypt the Window platform.',
+    sort: ArgsSortMap.CONF,
+  },
+  decrypt: {
+    alias: 'd',
+    type: Boolean,
+    message: 'Need to decrypt Wxapkg on Windows platform.',
     sort: ArgsSortMap.CONF,
   },
   path: {
@@ -78,7 +92,7 @@ function buildHelper(config) {
     .join('\n  ')
   let options = Object.entries(registeredArgs)
     .filter(([_, { message }]) => Boolean(message))
-    .map(([name, { alias, message }]) => [`-${alias.padEnd(2)}`, `--${case2Hyphen(name)}`].join(',').padEnd(28) + message)
+    .map(([name, { alias, message }]) => [`-${alias}`, `--${case2Hyphen(name)}`].join(',').padEnd(28) + message)
     .join('\n  ')
   const { subroutineH, optionsH } = config || {}
   subroutineH && (subroutine = subroutineH(subroutine))
@@ -118,6 +132,8 @@ function parserArgs() {
       result[name] = value
     }
   })
+  const filteredKeys = Object.keys(result).filter(key => registeredArgs[key].sort !== ArgsSortMap.CONF)
+  if (!filteredKeys.length) result.help = true
   const sortedArgs = Object.keys(result)
     .sort((k1, k2) => registeredArgs[k1].sort - registeredArgs[k2].sort)
     .map(k => [k, result[k]])
@@ -129,6 +145,7 @@ module.exports = {
   buildHelper,
   case2Hyphen,
   registeredArgs,
-  version: pkg.version,
+  version,
+  name,
   banner,
 }

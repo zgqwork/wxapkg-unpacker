@@ -14,25 +14,32 @@ const { doFile } = require('./wuWxapkg')
  * @return void
  * */
 function _unpackWxapkg(filePath, options) {
-  if (!fs.existsSync(filePath)) return logger.error(filePath + ' path not found!')
-  options = options || {}
-
   function invokeHook(fn, ...args) {
     if (!fn) return args[0]
     const result = fn.apply(options, args)
     return result ? result : args[0]
   }
-
+  options = options || {}
   const { filterableWxFwk = true, beforeUnpack, beforeProcessed, completed, processed } = options
+  if (!fs.existsSync(filePath)) {
+    logger.error(filePath + ' path not found!')
+    invokeHook(completed)
+    return
+  }
   const packages = !fs.statSync(filePath).isDirectory() ? [filePath] : utils.listDir(filePath)
   const filteredPackages = invokeHook(
     beforeUnpack,
     packages.filter(name => {
-      if (utils.getFilenameExt(name) === 'wxapkg') return false
+      if (utils.getFilenameExt(name) !== 'wxapkg') return false
       if (!filterableWxFwk) return true
       return !utils.checkIsFramework(name)
     })
   )
+  if (filteredPackages.length === 0) {
+    logger.warn('No available files found from:', filePath)
+    invokeHook(completed)
+    return
+  }
 
   let processedName = null
 
@@ -40,7 +47,7 @@ function _unpackWxapkg(filePath, options) {
     const name = invokeHook(beforeProcessed, filteredPackages.pop())
     if (!name) {
       invokeHook(processed, processedName)
-      return invokeHook(completed)
+      return invokeHook(completed, true)
     }
     processed && invokeHook(processed, processedName)
     processedName = name
@@ -53,8 +60,9 @@ function _unpackWxapkg(filePath, options) {
 
 /**
  * @param {import('fs').PathLike} filePath
- * @param {object?} options
+ * @param {object=} options
  * @param {boolean} [options.cleanOld=true] - 是否清理已经的打包过的文件
+ * @param {function} [options.callback] - 回调函数
  */
 function unpackWxapkg(filePath, options) {
   options = options || {}
@@ -155,25 +163,37 @@ function unpackWxapkg(filePath, options) {
       if (subPackageInfo) return moveSubPackage(subPackageInfo)
     },
     completed() {
+      const callback = options.callback || Function()
       const mainPackage = global.mainPackage
       const existsPlugin = global.existsPlugin
-      if (!mainPackage) return
+      if (!mainPackage) return callback(...arguments)
       handleMainPackage(mainPackage)
       existsPlugin && handlePlugin(mainPackage)
       writeConfig(mainPackage)
+      callback(...arguments)
+    },
+  })
+}
+
+function unpackCmd() {
+  const args = process.argv.slice(2)
+  if (!args.length) {
+    logger.debug(`Usage: node ${path.basename(__filename)} <packedDIR|packedFile>`)
+    process.exit(0)
+  }
+  logger.time('Unpack')
+  unpackWxapkg(args[0], {
+    callback() {
+      logger.timeEnd('Unpack')
     },
   })
 }
 
 if (require.main === module) {
-  const args = process.argv.slice(2)
-  if (!args.length) {
-    logger.debug('Usage: yarn unpack <unpackDir>')
-    process.exit(0)
-  }
-  unpackWxapkg(args[0])
+  unpackCmd()
 }
 
 module.exports = {
+  unpackCmd,
   unpackWxapkg,
 }

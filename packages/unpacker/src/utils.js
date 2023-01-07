@@ -142,7 +142,14 @@ function isWxAppid(appid) {
 
 function rollbackLogger() {
   if (!global.logger) {
-    global.logger = new Proxy({}, { get: () => console.log })
+    global.logger = new Proxy(
+      {},
+      {
+        get(_, prop) {
+          return console[prop] || console.log
+        },
+      }
+    )
   }
 }
 rollbackLogger()

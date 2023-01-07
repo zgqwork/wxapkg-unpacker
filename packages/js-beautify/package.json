@@ -1,8 +1,0 @@
-{
-  "name": "js-beautify",
-  "version": "1.0.0",
-  "description": "js beautify style",
-  "main": "index.js",
-  "author": "r3x5ur",
-  "license": "MIT"
-}

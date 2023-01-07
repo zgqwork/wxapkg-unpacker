@@ -1,6 +1,5 @@
 const Logger = require('js-logger')
 const colors = require('colors')
-const safeColors = require('colors/safe')
 const { basename } = require('path')
 colors.setTheme({
   silly: 'rainbow',
@@ -48,7 +47,7 @@ Logger.setHandler((message, { level, name }) => {
   if (level === Logger.TIME) {
     const [label, state] = message.slice(-2)
     const prop = state === 'end' ? 'timeEnd' : 'time'
-    return console[prop](levelName + label)
+    return console[prop](String(levelName + label).green.bold)
   }
   // normal
   const levelLowerCase = level.name.toLowerCase()
@@ -71,5 +70,4 @@ if (!global.logger) {
 }
 module.exports = {
   getLogger,
-  safeColors,
 }
