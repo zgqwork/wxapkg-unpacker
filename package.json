@@ -2,7 +2,7 @@
   "name": "wxapkg-unpacker",
   "displayName": "微信小程序反编译",
   "author": "r3x5ur",
-  "version": "0.0.1-alpha.4",
+  "version": "1.0.0",
   "keywords": [
     "wxapkg",
     "unpack",
@@ -23,9 +23,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "wxupk": "node bin/bin.js",
-    "wxunpacker": "yarn wxupk",
-    "build": "npx rollup -c"
+    "wxupk": "node bin/wxunpacker.js",
+    "wxunpacker": "yarn wxupk"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.5",
@@ -39,13 +38,7 @@
     "vm2": "^3.6.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "22.0.2",
-    "@rollup/plugin-json": "4.1.0",
-    "@rollup/plugin-node-resolve": "14.1.0",
-    "prettier": "^2.8.1",
-    "rollup": "2.79.1",
-    "rollup-plugin-strip-shebang": "^1.2.10",
-    "rollup-plugin-uglify": "^6.0.4"
+    "prettier": "^2.8.1"
   },
   "bin": {
     "wxunpacker": "bin/wxunpacker.js",
