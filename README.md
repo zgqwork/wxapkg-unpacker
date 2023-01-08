@@ -31,7 +31,7 @@ git clone https://github.com/r3x5ur/wxapkg-unpacker.git
 cd wxapkg-unpacker
 yarn install
 ```
-## 2. 使用
+### 2. 使用
 ```bash
 # you can use npx
 npx wxunpacker -h
