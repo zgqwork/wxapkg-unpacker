@@ -26,7 +26,7 @@
 # you can use npm install
 npm i wxapkg-unpacker -g
 # or yarn add
-yarn add wxapkg-unpacker --global
+yarn global add wxapkg-unpacker # Recommend
 # or clone this repository
 git clone https://github.com/r3x5ur/wxapkg-unpacker.git
 cd wxapkg-unpacker
