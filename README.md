@@ -3,7 +3,6 @@
 ## wxapkg-unpacker 是什么？
 > 自动化反编译微信小程序/小游戏，小程序安全利器
 > 基于 [wxappUnpacker](https://github.com/qwerty472123/wxappUnpacker) 二次开发
-> 暂时不支持 wxappUnpacker的参数，（后面再整合）若要使用可直接运行 lib/wuWxapkg.js
 ## 特性
 ### 1. 针对微信小游戏的优化
 - 微信小游戏一键解包整个项目
