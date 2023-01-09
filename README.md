@@ -1,5 +1,12 @@
 # wxapkg-unpacker
 
+[![https://img.shields.io/npm/v/wxapkg-unpacker.svg](https://img.shields.io/npm/v/wxapkg-unpacker.svg)](https://www.npmjs.com/package/wxapkg-unpacker)
+[![wxapkg-unpacker](https://img.shields.io/npm/dt/wxapkg-unpacker.svg)](https://www.npmjs.com/package/wxapkg-unpacker)
+[![languages](https://img.shields.io/github/languages/top/r3x5ur/wxapkg-unpacker)](https://github.com/r3x5ur/wxapkg-unpacker)
+[![visitor badge](https://visitor-badge.glitch.me/badge?page_id=https://github.com/r3x5ur/wxapkg-unpacker)](https://github.com/r3x5ur/wxapkg-unpacker)
+
+
+
 ## wxapkg-unpacker 是什么？
 > 自动化反编译微信小程序/小游戏，小程序安全利器
 > 基于 [wxappUnpacker](https://github.com/qwerty472123/wxappUnpacker) 二次开发
