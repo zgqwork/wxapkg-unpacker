@@ -18,7 +18,7 @@ function _decryptWxapkg(options) {
     return callback && callback(false)
   }
   const args = ['-wxid', wxAppid, '-in', filePath, '-out', savePath]
-  child_process.execFile('./exe/decrypt.exe', args, (error, stdout, stderr) => {
+  child_process.execFile(path.resolve(__dirname, './exe/decrypt.exe'), args, (error, stdout, stderr) => {
     stdout = String(stdout).trim()
     if (error || stderr || stdout.length !== 4) {
       logger.error(error || stderr || stdout)
